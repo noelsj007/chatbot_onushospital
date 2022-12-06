@@ -50,9 +50,15 @@ $(function () {
           ' <div class="choice_one option-btn" id="appointment">Book Appointment</div><br/>' +
           '<div class="choice_one option-btn" id="doctor_list">View Doctors</div><br/>' +
           '<div class="choice_one option-btn" id="specialist">View Specialist</div><br/>' +
-          '<div class="choice_one option-btn" id="contact">Contact us</div>' +
-        
-    '<div class="chat-input-holder" style="display:none;"><input type="text" class="chat-input" id="chat_input"></input><button id="input_submit" class="message-send">Send</button></div>';
+          '<div class="choice_one option-btn" id="contact">Contact us</div><br/>' +
+          "</div>" +
+          " </div>"+
+    "</div>" +
+    "</div>" +
+    '<div class="chat-input-holder" style="display:none;"><input type="text" class="chat-input" id="chat_input"></input><button id="input_submit" class="message-send">Send</button></div>' +
+    // "</div>";
+    "</div>" +
+    "</div>";
   $("body").append(html);
   // scrollBottom();
   var inputData = "";
