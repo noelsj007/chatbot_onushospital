@@ -1,4 +1,8 @@
 $(function () {
+  $(document).on('focusin', '#datepicker',function(){
+    $( "#datepicker" ).datepicker();
+  });
+
   var html =
     '<div class="chatbox-holder">' +
     '<div class="chatbox-mini mini"  style="display=none;" ><div class="chatbox-mini-title mini"><p>Hello There 👋, chat with us!</p><div class="chatbox-mini-image mini"><img class="mini" src="https://onushospitals.com/uploads/logo.png" /></div></div></div>'+
@@ -60,18 +64,12 @@ $(function () {
     "</div>" +
     "</div>";
   $("body").append(html);
-  // scrollBottom();
+    $(".chatbox").css("display","none");
+    scrollBottom();
   var inputData = "";
   var username = "you";
   var selectedIndex = 0;
   var specialists = [];
-  var heath_package = [
-    {
-      title:"Executive Diabetic Check Up - Male",
-      price:"RS 999 /-",
-      included: " HbA1c Serum Creatinine Physician Consultation Post Lunch Blood Sugar Physiotherapist Consultation"
-    }
-  ]
   var all_doc = [
     {
       title: "Dr. Sridhar Jakkepally",
@@ -121,85 +119,115 @@ $(function () {
     },
   ];
   $(".mini").click(function () {
-    $(".chatbox").show();
-    $(".chatbox-mini").hide();
-  });
-   $(".fa-minus").click(function () {
-    $(".chatbox").hide();
-    $(".chatbox-mini").show();
-    // $(this).closest(".chatbox").toggleClass("chatbox-min");
-    // if (inputData != "") $(".chat-input-holder").toggle();
-  });
-
-  $(".fa-close").click(function () {
-    $(this).closest(".chatbox").hide();
-  });
-  $("#chat_input").on("keypress", function (e) {
-    if (e.keyCode == 13) {
+      $(".chatbox").show();
+      $(".chatbox-mini").hide();
+    });
+     $(".fa-minus").click(function () {
+      $(".chatbox").hide();
+      $(".chatbox-mini").show();
+    });
+  
+    $(".fa-close").click(function () {
+      $(this).closest(".chatbox").hide();
+    });
+    $("#chat_input").on("keypress", function (e) {
+      if (e.keyCode == 13) {
+        userInput();
+      }
+    });
+    $("#input_submit").on("click", function () {
       userInput();
+    });
+    function IsEmail(email) {
+      var regex =
+        /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if (!regex.test(email)) {
+        return false;
+      } else {
+        return true;
+      }
     }
-  });
-  $("#input_submit").on("click", function () {
-    userInput();
-  });
-  function IsEmail(email) {
-    var regex =
-      /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (!regex.test(email)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-  function userInput() {
-    var val = $("#chat_input").val();
-    $("#chat_input").val("");
-    console.log("input", val);
-    switch (inputData) {
-      case "username":
-        if (val == "") {
-          alert("Please enter your name");
-        } else {
-          username = val;
+    function userInput() {
+      var val = $("#chat_input").val();
+      $("#chat_input").val("");
+      console.log("input", val);
+      switch (inputData) {
+        case "username":
+          if (val == "") {
+            alert("Please enter your name");
+          } else {
+            username = val;
+            html =
+              '<div class="message-box-holder">' +
+              ' <div class="message-box">Welcome ' +
+              username +
+              "</div>" +
+              // '<div class="message-receiver">' +
+              // username +
+              // " " +
+              // getMommentDate($.now()) +
+              // "</div>" +
+              userMessage()+
+              "</div>" +
+              '<div class="message-box-holder">' +
+              // '<div class="message-sender">Chat Support' +
+              // " " +
+              // getMommentDate($.now()) +
+              // "</div>"
+              chatbotMessage() +
+              ' <div class="message-box message-partner">' +
+              "Please Enter your mobile number" +
+              "</div>" +
+              "</div>";
+            $(".chat-messages").append(html);
+            inputData = "mobile";
+          }
+  
+          break;
+        case "mobile":
+          if (val == "" ) {
+            alert("Please enter your mobile number");
+          }else if (val.length < 10) {
+            alert("Please enter valid mobile number(10 digit)");
+          } else {
+            html =
+              '<div class="message-box-holder">' +
+              // '<div class="message-receiver">' +
+              // username +
+              // "</div>" +
+              ' <div class="message-box ">' +
+              val +
+              "</div>" +
+              // '<div class="message-receiver">' +
+              // username +
+              // " " +
+              // getMommentDate($.now()) +
+              // "</div>" +
+              userMessage()+
+              "</div>" +
+              '<div class="message-box-holder">' +
+              // '<div class="message-sender">Chat Support' +
+              // " " +
+              // getMommentDate($.now()) +
+              // "</div>" 
+              chatbotMessage()+
+              ' <div class="message-box message-partner">' +
+              "Please Enter your email" +
+              "</div>" +
+              "</div>";
+            $(".chat-messages").append(html);
+            inputData = "email";
+          }
+          break;
+        case "email":
+        if(val=="") {
+          alert('Please enter email');
+        }else if(!IsEmail(val)) {
+          alert('Please enter valid email');
+        }else{ 
           html =
             '<div class="message-box-holder">' +
-            ' <div class="message-box">Welcome ' +
-            username +
-            "</div>" +
-            // '<div class="message-receiver">' +
-            // username +
-            // " " +
-            // getMommentDate($.now()) +
-            // "</div>" +
-            userMessage()+
-            "</div>" +
-            '<div class="message-box-holder">' +
-            // '<div class="message-sender">Chat Support' +
-            // " " +
-            // getMommentDate($.now()) +
-            // "</div>"
-            chatbotMessage() +
-            ' <div class="message-box message-partner">' +
-            "Please Enter your mobile number" +
-            "</div>" +
-            "</div>";
-          $(".chat-messages").append(html);
-          inputData = "mobile";
-        }
-
-        break;
-      case "mobile":
-        if (val == "" ) {
-          alert("Please enter your mobile number");
-        }else if (val.length < 10) {
-          alert("Please enter valid mobile number(10 digit)");
-        } else {
-          html =
-            '<div class="message-box-holder">' +
-            // '<div class="message-receiver">' +
-            // username +
-            // "</div>" +
-            ' <div class="message-box ">' +
+            ' <div class="message-box">' +
             val +
             "</div>" +
             // '<div class="message-receiver">' +
@@ -208,59 +236,27 @@ $(function () {
             // getMommentDate($.now()) +
             // "</div>" +
             userMessage()+
-            "</div>" +
-            '<div class="message-box-holder">' +
+            " </div>";
+          html +=
+            '<div class="message-box-holder" id="option1">' +
             // '<div class="message-sender">Chat Support' +
             // " " +
             // getMommentDate($.now()) +
             // "</div>" 
             chatbotMessage()+
             ' <div class="message-box message-partner">' +
-            "Please Enter your email" +
+            " Please choose<br/>" +
+            ' <div class="choice_one option-btn" id="appointment">Book Appointment</div><br/>' +
+            '<div class="choice_one option-btn" id="doctor_list">View Doctors</div><br/>' +
+            '<div class="choice_one option-btn" id="specialist">View Specialist</div><br/>' +
             "</div>" +
-            "</div>";
+            " </div>";
+  
+          //<div id="welcome_msg">Hi,'+name+'</div>';
+          inputData = "";
           $(".chat-messages").append(html);
-          inputData = "email";
-        }
-        break;
-      case "email":
-      if(val=="") {
-        alert('Please enter email');
-      }else if(!IsEmail(val)) {
-        alert('Please enter valid email');
-      }else{ 
-        html =
-          '<div class="message-box-holder">' +
-          ' <div class="message-box">' +
-          val +
-          "</div>" +
-          // '<div class="message-receiver">' +
-          // username +
-          // " " +
-          // getMommentDate($.now()) +
-          // "</div>" +
-          userMessage()+
-          " </div>";
-        html +=
-          '<div class="message-box-holder" id="option1">' +
-          // '<div class="message-sender">Chat Support' +
-          // " " +
-          // getMommentDate($.now()) +
-          // "</div>" 
-          chatbotMessage()+
-          ' <div class="message-box message-partner">' +
-          " Please choose<br/>" +
-          ' <div class="choice_one option-btn" id="appointment">Book Appointment</div><br/>' +
-          '<div class="choice_one option-btn" id="doctor_list">View Doctors</div><br/>' +
-          '<div class="choice_one option-btn" id="specialist">View Specialist</div><br/>' +
-          "</div>" +
-          " </div>";
-
-        //<div id="welcome_msg">Hi,'+name+'</div>';
-        inputData = "";
-        $(".chat-messages").append(html);
-        $(".chat-input-holder").css("display", "none");}
-        break;
+          $(".chat-input-holder").css("display", "none");}
+          break;
       case "doctor_name":
         searhByName(val);
         html =
@@ -793,7 +789,7 @@ chatbotMessage()+
     // '</div>
     chatbotMessage()+
     '<div class="message-box message-partner">' +
-      "<p>Thanks for sharing the details.</p><br/>" +
+      "<p>Thanks for sharing the details. Our team will connect with you soon. Please proceed...</p><br/>" +
       '<ul>'+
       '<li>Name: '+nm+'</li>'+
       '<li>Email: '+email+'</li>'+
@@ -835,7 +831,7 @@ chatbotMessage()+
     '        <div class="icon-container">'+
     '          <span class="fa fa-calendar"></span>'+
     '        </div>'+
-    '        <input type="date" placeholder="Appointment Date" class="form-control" style="font-style: inherit;"/>'+
+    '        <input type="text" id="datepicker" placeholder="Appointment Date" class="form-control" style="font-style: inherit;"/>'+
     '      </div>'+
     '      <div class="invalid-feedback d-none">please select a valid date</div>'+
     '    </div>'+
