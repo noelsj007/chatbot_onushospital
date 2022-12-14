@@ -842,7 +842,7 @@ chatbotMessage()+
     '        <div class="icon-container">'+
     '          <span class="fa fa-clock-o"></span>'+
     '        </div>'+
-    '        <select name="Appointment Time" class="form-control1" style="font-style: inherit;">'+
+    '        <select name="Appointment Time" class="form-control" style="font-style: inherit;">'+
     '          <option value="10 AM" selected>10 AM</option>'+
     '          <option value=" 11 AM"> 11 AM</option>'+
     '          <option value=" 12 PM"> 12 PM</option>'+
